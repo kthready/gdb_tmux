@@ -10,4 +10,4 @@ wget -P ~ https://git.io/.gdbinit
 
 4. Run debug to start
 
-![Screenshot](https://github.com/leslielg/misc/blob/master/screenshot_gdb.png)
+![image](https://user-images.githubusercontent.com/5469646/80116084-1c177f00-85b8-11ea-946e-dc87fff61dce.png)
