@@ -3,10 +3,10 @@
 dashboard -layout source assembly registers variables memory threads stack !breakpoints !expressions !history
 dashboard -style prompt_not_running '\\[\\e[1;30m\\](gdb)\\[\\e[0m\\]'
 dashboard -style prompt_running '\\[\\e[1;35m\\](gdb)\\[\\e[0m\\]'
+dashboard -style syntax_highlighting 'm'
 dashboard source -style height 0
 dashboard assembly -style function False
-dashboard assembly -style height 17
+dashboard assembly -style height 0
 dashboard variables -style compact False
 dashboard memory -style placeholder '.'
 dashboard memory -style full True
-
