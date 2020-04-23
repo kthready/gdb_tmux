@@ -9,3 +9,5 @@ Install:
 wget -P ~ https://git.io/.gdbinit
 
 4. Run debug to start
+
+![Screenshot](https://github.com/leslielg/misc/blob/master/screenshot_gdb.png)
