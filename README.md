@@ -17,5 +17,3 @@ There's a patch to official gdb dashboard .gdbinit:
 3. For no source code assembly, still always put current line in the
    middle, to show nearby instructions
 4. Some other slight change to satify me
-
-![image](https://user-images.githubusercontent.com/5469646/80116084-1c177f00-85b8-11ea-946e-dc87fff61dce.png)
