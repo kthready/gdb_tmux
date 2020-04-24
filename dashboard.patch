@@ -1,0 +1,76 @@
+--- .gdbinit.1	2020-04-24 20:45:16.614026134 +0800
++++ .gdbinit.bak	2020-04-24 20:44:02.351362314 +0800
+@@ -409,10 +409,10 @@
+         # dashboard is printed to a separate file (dashboard -output ...)
+         if self.is_running() and not self.output:
+             width, _ = Dashboard.get_term_size()
+-            gdb.write(Dashboard.clear_screen())
+-            gdb.write(divider(width, 'Output/messages', True))
+-            gdb.write('\n')
+-            gdb.flush()
++#            gdb.write(Dashboard.clear_screen())
++#            gdb.write(divider(width, 'Output/messages', True))
++#            gdb.write('\n')
++           # gdb.flush()
+ 
+     def on_stop(self, _):
+         if self.is_running():
+@@ -538,7 +538,8 @@
+                     # create the divider accordingly
+                     div = divider(width, instance.label(), True, lines)
+                     # write the data
+-                    buf += '\n'.join([div] + lines)
++#                    buf += '\n'.join([div] + lines)
++                    buf += '\n'.join(lines)
+                     # write the newline for all but last unless main terminal
+                     if n != len(instances) or fs is gdb:
+                         buf += '\n'
+@@ -1224,9 +1225,12 @@
+                     if address['file_line'] == number and address['file_name'] == sal.symtab.filename:
+                         enabled = enabled or (address['enabled'] and is_root_enabled)
+             if enabled is None:
+-                breakpoint = ' '
++                if int(number) == current_line:
++                    breakpoint = '>'
++                else:
++                    breakpoint = ' '
+             else:
+-                breakpoint = ansi('!', R.style_critical) if enabled else ansi('-', R.style_low)
++                breakpoint = ansi('B', R.style_critical) if enabled else ansi('-', R.style_low)
+             out.append(line_format.format(breakpoint, number, line.rstrip('\n')))
+         # return the output along with scroll indicators
+         if len(out) <= height:
+@@ -1342,7 +1346,8 @@
+                 extra_end = 0
+                 # allow to scroll down nevertheless
+                 clamped_offset = min(self.offset, 0)
+-                asm = self.fetch_asm(frame.pc(), height - clamped_offset, True, highlighter)
++                # arm instruction is 4bytes
++                asm = self.fetch_asm(frame.pc() - int(height / 2) * 4, height - clamped_offset, True, highlighter)
+                 asm = asm[-clamped_offset:]
+             except gdb.error as e:
+                 msg = '{}'.format(e)
+@@ -1379,7 +1384,7 @@
+                     offset = offset.ljust(max_offset + 1)  # sign
+                     func_info = '{}{}'.format(frame.function(), offset)
+                 else:
+-                    func_info = '?'
++                    func_info = '??'
+             else:
+                 func_info = ''
+             format_string = '{}{}{}{}{}{}'
+@@ -1415,9 +1420,12 @@
+                     if address['address'] == addr:
+                         enabled = enabled or (address['enabled'] and is_root_enabled)
+             if enabled is None:
+-                breakpoint = ' '
++                if addr == frame.pc():
++                    breakpoint = '>'
++                else:
++                    breakpoint = ' '
+             else:
+-                breakpoint = ansi('!', R.style_critical) if enabled else ansi('-', R.style_low)
++                breakpoint = ansi('B', R.style_critical) if enabled else ansi('-', R.style_low)
+             out.append(format_string.format(breakpoint, addr_str, indicator, opcodes, func_info, text))
+         # return the output along with scroll indicators
+         if len(out) <= height:
